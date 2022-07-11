@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
+</head>
+<body>
+<py-script> #IMPORTS
+from random import *
+#END IMPORTS
+
+Namen = input("Geben Sie ihren Namen ein.")
+#SG = Schwierigkeitsgrad ( 1;2;3;4)
+SG = int(input("Wählen Sie den Schwierigkeitsgrad (1,2,3,4)"))
+
+#Zufällige Zahl anhand der Schwierigkeitsstufe
+if SG == 1:
+    GZ = randint(1, 10) # GZ (Gesuchte Zahl) = Zufällig zwischen 1 - 10 // Nicht 0 da sonst eventuell die While Schleife nicht erreicht wird
+elif SG == 2:
+    GZ = randint(1, 50) # GZ (Gesuchte Zahl) = Zufällig zwischen 1 - 50 // Nicht 0 da sonst eventuell die While Schleife nicht erreicht wird
+elif SG == 3:
+    GZ = randint(1, 100) # GZ (Gesuchte Zahl) = Zufällig zwischen 1 - 100 // Nicht 0 da sonst eventuell die While Schleife nicht erreicht wird
+elif SG == 4:
+    GZ = randint(1, 1000) # GZ (Gesuchte Zahl) = Zufällig zwischen 1 - 1000 // Nicht 0 da sonst eventuell die While Schleife nicht erreicht wird
+else:
+    print("Kein Gültiger Schwierigkeitsgrad")
+
+#EZ (Eingabe Zahl) wird ein Standardwert zugewiesen um in die While-Schleife zu "öffnen", in der While Schleife wird diese Variable durch den Nuzter
+# auf seine geratende Zahl geändert. (EZ muss vorher deklariert werden da sonst die While Schleife nicht betreten werden kann und ein Fehler auftritt)
+EZ = 0
+
+#AV = Anzahlversuche (Standardwert 1 da bei direktem erraten dies als 1 Versuch zählt)
+AV = 1
+
+
+while EZ != GZ:
+    # Wichtig den Input in die While Schleife setzten und nicht davor, denn sonst wird die While Schleife unendlich mal wiederholt da der Wert nie geändert wird
+    # (Da der Input welcher sonst davor liegt) nicht mehr erreichet werden kann!!
+
+    EZ = int(input("Geben Sie ihre Zahl ein."))
+    if EZ == GZ:
+        print("Glückwunsch", Namen, "du hast die richtige Zahl(",EZ,") auf Level", SG, "mit", AV,  "Versuchen erraten")
+    elif EZ > GZ:
+        print("Die gesuchte Zahl ist kleiner als", EZ)
+        AV = AV + 1
+
+    else:
+        print("Die gesuchte Zahl ist größer als", EZ)
+        AV = AV + 1 </py-script>|
+</body>
+</html>
