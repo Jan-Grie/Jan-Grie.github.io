@@ -6,14 +6,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Calculator</title>
 </head>
-<body class="bg-blue-500 flex justify-center h-screen items-center font-light">
+<body class="bg-blue-500 flex justify-center h-screen items-center font-light select-none">
+    <div class="px-6 py-3 absolute top-0 left-0   rounded-xl">
+        <a href="/index.html">Back</a>
+    </div>
     <!-- Calculator -->
-    <div id="Calculator" class="bg-black rounded-lg shadow-2xl shadow-gray-800 px-4 pt-20 pb-4 max-w-lg">
+    <div id="Calculator" class="bg-black rounded-lg shadow-2xl shadow-gray-800 px-4 pt-20 pb-4 w-56 max-w-56">
         <div id="Output" class="justify-end flex px-4">
-            <p id="Calculator-Output" class="text-white text-2xl font-light">0</p>
+            <p id="Calculator-Output" class="text-white text-2xl font-light overflow-hidden">0</p>
         </div>
         <div id="Row1" class="grid grid-cols-4 gap-4 m-2">
-            <div class="bg-gray-400 rounded-full p-1 text-center text-black transition duration-150  active:bg-gray-300 active:text-black button-input"><b>AC</b></div>
+            <div class="bg-gray-400 rounded-full p-1 text-center text-black transition duration-150  active:bg-gray-300 active:text-black button-input" id="Delete-Button"><b>AC</b></div>
             <div class="bg-gray-400 rounded-full p-1 text-center text-black transition duration-150  active:bg-gray-300 active:text-black button-input"><b>+/-</b></div>
             <div class="bg-gray-400 rounded-full p-1 text-center text-black transition duration-150  active:bg-gray-300 active:text-black button-input"><b>%</b></div>
             <div class="bg-orange-500 rounded-full p-1 text-center text-white transition duration-150 active:text-orange-500 active:bg-white button-input"><b>÷</b></div>
@@ -66,13 +69,27 @@ buttons.forEach(button => {
                 //Replace , with .
                 const sanitizedMemory = memory.replace(/,/g, '.').replace(/÷/g, '/').replace(/×/g, '*');
                 output = eval(sanitizedMemory);
+                document.getElementById('Delete-Button').textContent = 'AC';
             } catch (error) {
                 output = 'Error';
                 console.log("The Error is:", error);
             }
+        } else if (buttonText === '+/-') {
+            //Invert the result
+            output = -parseFloat(output);
+        } else if (buttonText === '%') {
+            //Get percentage
+            output = parseFloat(output) / 100;
+        } else if (buttonText === 'C') {
+            output = output.slice(0, -1);
+            if (output === '') {
+                output = '0';
+                document.getElementById('Delete-Button').textContent = 'AC';
+            }
         } else {
-            if (output === '0') {
+            if (output === '0' || output === 'Error') {
                 output = buttonText;
+                document.getElementById("Delete-Button").textContent = 'C';
             } else {
                 output += buttonText;
             }
