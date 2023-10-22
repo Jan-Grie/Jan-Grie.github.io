@@ -8,7 +8,7 @@
 </head>
 <body class="bg-blue-500 flex justify-center h-screen items-center font-light">
     <!-- Calculator -->
-    <div id="Calculator" class="bg-black rounded-lg shadow-2xl shadow-gray-800 px-4 pt-20 pb-4">
+    <div id="Calculator" class="bg-black rounded-lg shadow-2xl shadow-gray-800 px-4 pt-20 pb-4 max-w-lg">
         <div id="Output" class="justify-end flex px-4">
             <p id="Calculator-Output" class="text-white text-2xl font-light">0</p>
         </div>
@@ -47,6 +47,44 @@
 
 <script>
 //Containts all functions for the Calculator
+
+var output = '';
+var memory = '';
+
+const buttons = document.querySelectorAll('.button-input');
+
+buttons.forEach(button => {
+    button.addEventListener('click', function() {
+        const buttonText = button.textContent;
+
+        if (buttonText === 'AC') {
+            //Reset all
+            output = '0';
+            memory = '';            
+        } else if (buttonText === '=') {
+            try {
+                //Replace , with .
+                const sanitizedMemory = memory.replace(/,/g, '.').replace(/÷/g, '/').replace(/×/g, '*');
+                output = eval(sanitizedMemory);
+            } catch (error) {
+                output = 'Error';
+                console.log("The Error is:", error);
+            }
+        } else {
+            if (output === '0') {
+                output = buttonText;
+            } else {
+                output += buttonText;
+            }
+            memory = output;
+        }
+
+        document.getElementById('Calculator-Output').textContent = output;
+
+
+    })
+})
+
 
 
 </script>
