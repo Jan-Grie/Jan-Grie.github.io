@@ -6,14 +6,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Start</title>
 </head>
-<body class="bg-gray-400  font-light">
-    <div id="Header" class="bg-white shadow-2xl shadow-gray-800 py-8 px-5 w-full flex justify-between">
+<body class="bg-gradient-to-l from-violet-400 to-green-400  font-light">
+    <div id="Header" class="bg-white bg-opacity-90 shadow-2xl shadow-gray-800 py-8 px-5 w-full flex justify-between">
         <div id="Left">
             <h2 class="font-semibold text-lg">Projects</h2>
         </div>
         <div id="Middle">
             <a class="font-normal px-5 hover:underline">Projects</a>
-            <a class="font-normal px-5 hover:underline">About me</a>
+            <!-- <a class="font-normal px-5 hover:underline">About me</a> -->
         </div>
         <div id="Right">
             
@@ -21,10 +21,9 @@
     </div>
     <div class="w-full flex justify-center mt-10">
         <h2 class="font-bold">Welcome to my Projects</h2>
-        
     </div>
-    <div class="flex justify-center mt-5 mx-5">
-        <div class="grid grid-cols-4 gap-4 content-center">
+    <div class="flex justify-center mt-5 w-full"> <!-- Entfernen Sie mx-5 -->
+        <div class="grid grid-cols-1 gap-4 content-center lg:grid-cols-2 ">
             <div class="w-52 bg-white shadow-md rounded-2xl">
                 <img class="w-full rounded-t-xl " src="/images/Calculator.JPG" alt="Calculator">
                 <div class="mt-4 p-4">
@@ -32,8 +31,15 @@
                     <hr>                    
                     <p class="text-gray-700">An easy Calculator created with Tailwind CSS</p>
                 </div>
-              </div>
-              
+            </div>
+            <div class="w-52 bg-white shadow-md rounded-2xl">
+                <img class="rounded-t-xl w-full " src="/images/PasswordGenerator.JPG" height="1" alt="PasswordGenerator">
+                <div class="mt-4 p-4">
+                    <h2><a href="PasswordGenerator/index.html">Password Generator</a></h2>
+                    <hr>                    
+                    <p class="text-gray-700">Generate safe Passwords with an Password Generator</p>
+                </div>
+            </div>              
         </div>
     </div>
     

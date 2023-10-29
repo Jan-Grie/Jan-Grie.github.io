@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/fc9dc86212.js" crossorigin="anonymous"></script>    
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <title>Password Generator</title>
+</head>
+<body class="bg-gradient-to-r from-cyan-500 to-blue-500 flex justify-center h-screen items-center font-light  text-white">
+    <div class="px-6 py-3 absolute top-0 left-0   rounded-xl">
+        <a href="/index.html">Back</a>
+    </div>
+    <div id="PasswordGenerator" class="backdrop-blur rounded-lg w-80 py-3 shadow-2xl shadow-gray-800 p-4">
+        <div class="justify-start"><h2 class="font-bold text-white">Password Generator</h2></div>                
+        
+        <!-- Password Output -->
+        <div class="flex relative w-full p-3 my-2 justify-center backdrop-blur bg-gray-300/25 rounded-md px-2 text-xs lg:text-base" onclick="CopyToClipboard();" id="Password-Output-Container">
+            <p id="Password-Output" class="mb-2">CLICK GENERATE</p>
+            <p class="absolute bottom-0 right-2 text-[10px]"><i class="fa-regular fa-copy px-1"></i>Click to copy</p>
+        </div>
+        <!-- Password Output -->        
+        <!--------------------->
+        
+        <div class="font-mono  text-xs">
+            <p>Length: <output id="Output-Length">12</output></p>
+        </div>        
+        <div class="flex w-full p-3 justify-between backdrop-blur bg-gray-300/25 rounded-md px-2">
+            <p class>4</p><input id="Lenght-Range" oninput="document.getElementById('Output-Length').value = this.value" type="range" min="4" max="32" step="1" value="12" class="bg-transparent appearance-none w-full mx-2 my-auto h-0.5 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full  [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-white/25 "/><p>32</p>
+        </div>
+        <div class="font-mono  text-xs justify-center flex mt-3 mb-1">
+            <p>Settings</p>
+        </div>        
+        <div class="flex w-full p-3 my-2 justify-between backdrop-blur bg-gray-300/25 rounded-md px-2">
+            <label>Include Uppercase</label> 
+            <input type="checkbox" id="uppercase-check"/>
+        </div>
+        <div class="flex w-full p-3 my-2 justify-between backdrop-blur bg-gray-300/25 rounded-md px-2">
+            <label>Include Lowercase</label> 
+            <input type="checkbox" id="lowercase-check"/>
+        </div>
+        <div class="flex w-full p-3 my-2 justify-between backdrop-blur bg-gray-300/25 rounded-md px-2">
+            <label>Include Numbers</label> 
+            <input type="checkbox" id="numbers-check"/>
+        </div>
+        <div class="flex w-full p-3 my-2 justify-between backdrop-blur bg-gray-300/25 rounded-md px-2">
+            <label>Include Special Characters</label>             
+            <input type="checkbox" id="special-check"/>
+        </div>
+        <div class="flex w-full p-3 my-2 justify-center font-semibold  bg-green-500 rounded-md px-2 text-center hover:bg-green-600 hover:cursor-pointer" onclick="GeneratePassword();">
+            <a>Generate Password</a>
+        </div>
+    </div>  
+
+    <!--
+        Old Card Background -> BG-blue-950
+        Old Input Background -> BG-Blue-900
+
+    -->
+
+<script>
+//Password Generator
+
+    function GeneratePassword() {
+        //Declare return value
+        var password = "";
+        
+        //Get the different Checkboxes and Length
+        const ValLength = document.getElementById("Lenght-Range").value;
+        const UppercaseCheck = document.getElementById("uppercase-check").checked;
+        const LowercaseCheck = document.getElementById("lowercase-check").checked;
+        const NumerbsCheck = document.getElementById("numbers-check").checked;
+        const SpecialCheck = document.getElementById("special-check").checked;
+        
+        //The different Charsets
+        const CharsUppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const CharsLowercase = "abcdefghijklmnopqrstuvwxyz";
+        const CharsDigital = "0123456789";
+        const CharsSpecial = "!@#$%^&*()_+[]{}|;:,.<>?";
+
+
+        var allChars = ''; //Empty 
+        if (UppercaseCheck) {
+            allChars += CharsUppercase;            
+        }
+        if (LowercaseCheck) {
+            allChars += CharsLowercase;
+        }
+        if (NumerbsCheck) {
+            allChars += CharsDigital;            
+        }
+        if (SpecialCheck) {
+            allChars += CharsSpecial;
+        }
+
+        console.log(allChars);
+
+        if (allChars != '') {
+            try {
+                for(let i = 0; i < ValLength; i++){
+                    var randomIndex = Math.floor(Math.random() * allChars.length);
+                    password += allChars.charAt(randomIndex);
+                    console.log("Inside the for", i);
+                }
+                console.log("Inside the TRY");
+            } catch (e) {
+                console.log("The following error occurred:", e);
+                password = "Error, please try again";
+            }
+
+            
+        } else {
+            password = "Please select at least one character set!";
+        }
+
+        document.getElementById("Password-Output").innerHTML = password;
+
+    }
+
+    function CopyToClipboard() {
+        //Get the Ouput-Field
+        const OutputValue = document.getElementById("Password-Output");
+        const TooltipCont = document.querySelector("#tooltip-container");
+
+        
+        try {
+            if (OutputValue.textContent === "CLICK GENERATE" || OutputValue.textContent === "Please select at least one character set!") {
+                throw new Error("No password generated => No copying to clipboard!")
+            }
+        
+            
+            //Write value to Clipboard                
+            navigator.clipboard.writeText(OutputValue.textContent);
+            tippy('#Password-Output-Container', {
+                content: "Password copied to clipboard",
+                trigger: 'manual',
+                showOnCreate: true,
+                duration: [1000, 2000],            
+                onShow(instance) {
+                    setTimeout (() => {
+                        instance.hide();
+                    }, 2000);
+                }
+            });
+        } catch (error) {
+            //Can´t copy Password to clipboard => Maybe it is an Mobile Device
+            console.error("The Following Error occurred: ", error);              
+            tippy('#Password-Output-Container', {
+                content: "Can´t copy password to clipboard. Sorry!",
+                trigger: 'manual',
+                showOnCreate: true,
+                duration: [1000, 2000],            
+                onShow(instance) {
+                    setTimeout (() => {
+                        instance.hide();
+                    }, 2000);
+                }
+            });            
+        }  
+    }
+
+</script>
+</body>
+</html>
